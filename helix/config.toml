@@ -1,0 +1,27 @@
+theme = "flexoki_light"
+[editor]
+bufferline = "multiple"
+color-modes = true
+cursorline = true
+end-of-line-diagnostics = "hint"
+file-picker.hidden = false
+text-width = 100
+
+[editor.statusline.mode]
+insert = "INSERT"
+normal = "NORMAL"
+select = "SELECT"
+
+[editor.whitespace.render]
+tab = "all"
+
+[editor.cursor-shape]
+insert = "bar"
+select = "underline"
+
+[editor.inline-diagnostics]
+cursor-line = "warning"
+
+[editor.indent-guides]
+render = true
+character = "▏"

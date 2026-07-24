@@ -1,0 +1,187 @@
+# Super ≈ Command
+set $cmd Mod4
+set $wm Mod4+Ctrl
+set $term ghostty
+set $menu fuzzel
+set $browser firefox
+set $lock pgrep -x swaylock >/dev/null || swaylock
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+
+include /etc/sway/config.d/*
+
+font pango:IBM Plex Sans Text, Noto Sans 13.5
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 5
+gaps outer 5
+smart_borders on
+focus_follows_mouse yes
+mouse_warping none
+focus_on_window_activation smart
+workspace_auto_back_and_forth yes
+default_orientation horizontal
+workspace_layout default
+
+include ~/.config/sway/theme.conf
+include ~/.config/sway/fx.conf
+
+input type:keyboard {
+    xkb_layout gb
+    repeat_delay 250
+    repeat_rate 35
+}
+
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
+input type:pointer {
+    accel_profile flat
+    pointer_accel 0
+}
+
+# EDID name, not connector (connector can move across GPU ports)
+set $main "LG Electronics 38GN950 311NTQDE4268"
+
+# Geometry via kanshi. Wallpaper stays here.
+output $main bg ~/.config/theme/wallpaper-active.jpg fill
+
+workspace $ws1 output $main
+workspace $ws2 output $main
+workspace $ws3 output $main
+workspace $ws4 output $main
+workspace $ws5 output $main
+
+exec waybar
+exec mako
+exec /usr/libexec/lxqt-policykit-agent
+exec kanshi
+exec wlsunset -S 06:30 -s 19:15 -d 5400 -t 2700 -T 6500
+exec sh -c 'rm -f "$XDG_RUNTIME_DIR/wob.sock"; mkfifo -m 600 "$XDG_RUNTIME_DIR/wob.sock"; tail -f "$XDG_RUNTIME_DIR/wob.sock" | wob'
+exec wl-paste --type text --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+exec swayidle -w \
+    timeout 900 "$lock" \
+    timeout 960 'swaymsg "output * power off"' \
+        resume 'swaymsg "output * power on"' \
+    before-sleep "$lock" \
+    lock "$lock"
+
+floating_modifier $cmd normal
+
+# apps
+bindsym $cmd+Return exec $term
+bindsym $cmd+Space exec $menu
+bindsym $wm+b exec $browser
+bindsym $wm+n exec $term -e hx
+bindsym $wm+y exec $term -e yazi
+
+# session
+bindsym $wm+Shift+c reload
+bindsym $cmd+Ctrl+q exec $lock
+bindsym $cmd+Shift+q exec swaynag -t warning -m 'Exit Sway?' -B 'Yes, exit' 'swaymsg exit'
+bindsym $cmd+q kill
+
+# focus — h/a/e/i = left/down/up/right (Nav-layer positions)
+bindsym $cmd+h focus left
+bindsym $cmd+a focus down
+bindsym $cmd+e focus up
+bindsym $cmd+i focus right
+bindsym $cmd+Left focus left
+bindsym $cmd+Down focus down
+bindsym $cmd+Up focus up
+bindsym $cmd+Right focus right
+
+# move
+bindsym $cmd+Shift+h move left
+bindsym $cmd+Shift+a move down
+bindsym $cmd+Shift+e move up
+bindsym $cmd+Shift+i move right
+bindsym $cmd+Shift+Left move left
+bindsym $cmd+Shift+Down move down
+bindsym $cmd+Shift+Up move up
+bindsym $cmd+Shift+Right move right
+
+# workspaces
+bindsym $wm+1 workspace number $ws1
+bindsym $wm+2 workspace number $ws2
+bindsym $wm+3 workspace number $ws3
+bindsym $wm+4 workspace number $ws4
+bindsym $wm+5 workspace number $ws5
+bindsym $wm+Shift+1 move container to workspace number $ws1
+bindsym $wm+Shift+2 move container to workspace number $ws2
+bindsym $wm+Shift+3 move container to workspace number $ws3
+bindsym $wm+Shift+4 move container to workspace number $ws4
+bindsym $wm+Shift+5 move container to workspace number $ws5
+
+# layout toggles
+bindsym $wm+f fullscreen
+bindsym $cmd+Shift+space floating toggle
+bindsym $wm+m focus mode_toggle
+bindsym $wm+a focus parent
+
+bindsym $wm+minus scratchpad show
+
+# screenshots
+bindsym Print exec sh -c 'grim - | wl-copy'
+bindsym $cmd+Print exec sh -c 'grim -g "$(slurp)" - | wl-copy'
+bindsym $cmd+Shift+Print exec sh -c 'grim -g "$(slurp)" - | swappy -f -'
+bindsym $cmd+Shift+3 exec sh -c 'grim - | wl-copy'
+bindsym $cmd+Shift+4 exec sh -c 'grim -g "$(slurp)" - | wl-copy'
+bindsym $cmd+Shift+5 exec sh -c 'grim -g "$(slurp)" - | swappy -f -'
+
+# Super+c / Super+v via legacy Insert chords (wtype)
+bindcode $cmd+54 nop
+bindcode --release $cmd+54 exec wtype -M ctrl -k Insert -m ctrl
+bindcode $cmd+55 nop
+bindcode --release $cmd+55 exec wtype -M shift -k Insert -m shift
+
+bindsym $wm+v exec sh -c 'entry=$(cliphist list | fuzzel --dmenu --prompt="Clipboard> ") || exit 0; [ -n "$entry" ] || exit 0; printf "%s\n" "$entry" | cliphist decode | wl-copy'
+
+# media
+bindsym --locked XF86AudioMute exec wob-vol mute
+bindsym --locked XF86AudioLowerVolume exec wob-vol 5%-
+bindsym --locked XF86AudioRaiseVolume exec wob-vol 5%+
+bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previous
+
+# layout mode: $wm+r, then single keys (h/a/e/i directions)
+mode "layout" {
+    bindsym h resize shrink width 20px
+    bindsym a resize grow height 20px
+    bindsym e resize shrink height 20px
+    bindsym i resize grow width 20px
+    bindsym Left resize shrink width 20px
+    bindsym Down resize grow height 20px
+    bindsym Up resize shrink height 20px
+    bindsym Right resize grow width 20px
+    bindsym o split toggle
+    bindsym s layout stacking
+    bindsym t layout tabbed
+    bindsym d layout toggle split
+    bindsym f fullscreen
+    bindsym minus move scratchpad
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $wm+r mode "layout"
+
+for_window [app_id="1password"] floating enable, resize set width 1220 px height 754 px, move position center
+for_window [app_id="pavucontrol"] floating enable, resize set width 987 px height 610 px, move position center
+for_window [app_id="blueman-manager"] floating enable, resize set width 987 px height 610 px, move position center
+for_window [app_id="nm-connection-editor"] floating enable, resize set width 987 px height 610 px, move position center
+for_window [app_id="wdisplays"] floating enable, resize set width 1220 px height 754 px, move position center
+for_window [window_type="dialog"] floating enable
+for_window [window_role="pop-up"] floating enable

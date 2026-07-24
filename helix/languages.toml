@@ -1,0 +1,119 @@
+[language-server.biome]
+command = "biome"
+args = ["lsp-proxy"]
+
+[language-server.clangd]
+command = "clangd"
+
+[language-server.rust-analyzer.config.check]
+command = "clippy"
+
+[[language]]
+name = "javascript"
+language-servers = [
+  { name = "typescript-language-server", except-features = ["format"] },
+  { name = "biome", only-features = ["format", "diagnostics", "code-action"] },
+]
+auto-format = true
+
+[[language]]
+name = "jsx"
+language-servers = [
+  { name = "typescript-language-server", except-features = ["format"] },
+  { name = "biome", only-features = ["format", "diagnostics", "code-action"] },
+]
+auto-format = true
+
+[[language]]
+name = "typescript"
+language-servers = [
+  { name = "typescript-language-server", except-features = ["format"] },
+  { name = "biome", only-features = ["format", "diagnostics", "code-action"] },
+]
+auto-format = true
+
+[[language]]
+name = "tsx"
+language-servers = [
+  { name = "typescript-language-server", except-features = ["format"] },
+  { name = "biome", only-features = ["format", "diagnostics", "code-action"] },
+]
+auto-format = true
+
+[[language]]
+name = "html"
+language-servers = [
+  { name = "vscode-html-language-server", except-features = ["format"] },
+  { name = "biome", only-features = ["format", "diagnostics", "code-action"] },
+]
+
+[[language]]
+name = "css"
+language-servers = [
+  { name = "vscode-css-language-server", except-features = ["format"] },
+  { name = "biome", only-features = ["format", "diagnostics", "code-action"] },
+]
+
+[[language]]
+name = "json"
+language-servers = [
+  { name = "vscode-json-language-server", except-features = ["format"] },
+  { name = "biome", only-features = ["format", "diagnostics", "code-action"] },
+]
+
+[[language]]
+name = "jsonc"
+language-servers = [
+  { name = "vscode-json-language-server", except-features = ["format"] },
+  { name = "biome", only-features = ["format", "diagnostics", "code-action"] },
+]
+
+[[language]]
+name = "go"
+language-servers = ["gopls"]
+
+[[language]]
+name = "c"
+language-servers = ["clangd"]
+auto-format = false
+
+[[language]]
+name = "cpp"
+auto-format = true
+
+[[language]]
+name = "cmake"
+language-servers = ["neocmakelsp"]
+
+[[language]]
+name = "bash"
+formatter = { command = "shfmt" }
+auto-format = true
+
+[[language]]
+name = "python"
+language-servers = [
+  { name = "ruff", only-features = ["format", "diagnostics", "code-action"] },
+  "ty",
+]
+auto-format = true
+
+[[language]]
+name = "yaml"
+language-servers = ["yaml-language-server"]
+auto-format = true
+
+[[language]]
+name = "toml"
+language-servers = ["taplo"]
+auto-format = true
+
+[[language]]
+name = "docker-compose"
+auto-format = true
+
+[[language]]
+name = "markdown"
+language-servers = ["markdown-oxide"]
+soft-wrap.enable = true
+soft-wrap.wrap-at-text-width = true
