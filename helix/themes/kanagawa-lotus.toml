@@ -1,0 +1,117 @@
+# Kanagawa Lotus
+# Light adaptation of rebelot/kanagawa.nvim for Helix.
+inherits = "kanagawa"
+
+## User interface
+"ui.selection" = { bg = "lotusViolet3" }
+"ui.selection.primary" = { bg = "lotusViolet3" }
+"ui.background" = { fg = "lotusInk1", bg = "lotusWhite3" }
+"ui.linenr" = { fg = "lotusGray3" }
+"ui.linenr.selected" = { fg = "lotusOrange", modifiers = ["bold"] }
+"ui.gutter" = { fg = "lotusGray3", bg = "lotusWhite4" }
+"ui.virtual" = "lotusGray3"
+"ui.virtual.ruler" = { bg = "lotusWhite4" }
+"ui.virtual.inlay-hint" = "lotusGray2"
+"ui.virtual.jump-label" = { fg = "lotusRed", modifiers = ["bold"] }
+"ui.statusline" = { fg = "lotusInk2", bg = "lotusWhite1" }
+"ui.statusline.inactive" = { fg = "lotusGray2", bg = "lotusWhite1" }
+"ui.statusline.normal" = { fg = "lotusWhite3", bg = "lotusBlue4", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "lotusWhite3", bg = "lotusGreen", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "lotusWhite3", bg = "lotusViolet4", modifiers = ["bold"] }
+"ui.bufferline" = { fg = "lotusGray2", bg = "lotusWhite1" }
+"ui.bufferline.active" = { fg = "lotusInk2", bg = "lotusWhite1" }
+"ui.bufferline.background" = { bg = "lotusWhite1" }
+"ui.popup" = { fg = "lotusInk2", bg = "lotusWhite0" }
+"ui.window" = { fg = "lotusGray2" }
+"ui.help" = { fg = "lotusInk2", bg = "lotusWhite0" }
+"ui.text" = "lotusInk1"
+"ui.text.focus" = { fg = "lotusInk2", bg = "lotusBlue2", modifiers = ["bold"] }
+"ui.cursor" = { fg = "lotusWhite3", bg = "lotusAqua2" }
+"ui.cursor.primary" = { fg = "lotusWhite3", bg = "lotusInk2" }
+"ui.cursor.match" = { fg = "lotusRed", modifiers = ["bold"] }
+"ui.highlight" = { fg = "lotusInk2", bg = "lotusBlue2" }
+"ui.menu" = { fg = "lotusInk2", bg = "lotusBlue1" }
+"ui.menu.selected" = { fg = "lotusInk2", bg = "lotusBlue3", modifiers = ["bold"] }
+"ui.menu.scroll" = { fg = "lotusGray2", bg = "lotusBlue1" }
+"ui.cursorline.primary" = { bg = "lotusWhite5" }
+"ui.cursorcolumn.primary" = { bg = "lotusWhite5" }
+
+"diagnostic.error" = { underline = { color = "lotusRed3", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "lotusOrange2", style = "curl" } }
+"diagnostic.info" = { underline = { color = "lotusTeal3", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "lotusAqua2", style = "curl" } }
+error = "lotusRed3"
+warning = "lotusOrange2"
+info = "lotusTeal3"
+hint = "lotusAqua2"
+
+## Diff
+"diff.plus" = "lotusGreen2"
+"diff.minus" = "lotusRed2"
+"diff.delta" = "lotusYellow3"
+
+## Syntax highlighting
+"attribute" = "lotusRed"
+"type" = "lotusAqua"
+"type.builtin" = "lotusTeal2"
+"constructor" = "lotusTeal2"
+"constant" = "lotusOrange"
+"constant.numeric" = "lotusPink"
+"constant.character.escape" = "lotusYellow2"
+"string" = "lotusGreen"
+"string.regexp" = "lotusYellow2"
+"string.special.url" = "lotusTeal2"
+"string.special.symbol" = "lotusViolet4"
+"comment" = "lotusGray3"
+"variable" = "lotusInk1"
+"variable.builtin" = "lotusRed"
+"variable.parameter" = "lotusBlue5"
+"variable.other.member" = "lotusYellow"
+"label" = "lotusTeal2"
+"punctuation" = "lotusTeal1"
+"keyword" = "lotusViolet4"
+"keyword.control.return" = "lotusRed"
+"keyword.control.exception" = "lotusRed"
+"keyword.directive" = "lotusRed"
+"operator" = "lotusYellow2"
+"function" = "lotusBlue4"
+"function.builtin" = "lotusTeal2"
+"function.macro" = "lotusRed"
+"tag" = "lotusAqua"
+"namespace" = "lotusOrange"
+"special" = "lotusRed"
+
+[palette]
+lotusInk1 = "#545464"
+lotusInk2 = "#43436C"
+lotusGray2 = "#716E61"
+lotusGray3 = "#8A8980"
+lotusWhite0 = "#D5CEA3"
+lotusWhite1 = "#DCD5AC"
+lotusWhite2 = "#E5DDB0"
+lotusWhite3 = "#F2ECBC"
+lotusWhite4 = "#E7DBA0"
+lotusWhite5 = "#E4D794"
+lotusViolet3 = "#C9CBD1"
+lotusViolet4 = "#624C83"
+lotusBlue1 = "#C7D7E0"
+lotusBlue2 = "#B5CBD2"
+lotusBlue3 = "#9FB5C9"
+lotusBlue4 = "#4D699B"
+lotusBlue5 = "#5D57A3"
+lotusGreen = "#6F894E"
+lotusGreen2 = "#6E915F"
+lotusPink = "#B35B79"
+lotusOrange = "#CC6D00"
+lotusOrange2 = "#E98A00"
+lotusYellow = "#77713F"
+lotusYellow2 = "#836F4A"
+lotusYellow3 = "#DE9800"
+lotusRed = "#C84053"
+lotusRed2 = "#D7474B"
+lotusRed3 = "#E82424"
+lotusAqua = "#597B75"
+lotusAqua2 = "#5E857A"
+lotusTeal1 = "#4E8CA2"
+lotusTeal2 = "#6693BF"
+lotusTeal3 = "#5A7785"

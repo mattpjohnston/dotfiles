@@ -1,0 +1,20 @@
+# Local Helix port of Matt's Token dark palette.
+inherits = "base16_default_dark"
+
+[palette]
+base00 = "#262624"
+base01 = "#212120"
+base02 = "#3a3a37"
+base03 = "#5a5955"
+base04 = "#938e87"
+base05 = "#e8e4dc"
+base06 = "#d4cfc6"
+base07 = "#e8e4dc"
+base08 = "#c67777"
+base09 = "#d4914a"
+base0A = "#c4a855"
+base0B = "#7da47a"
+base0C = "#6ba8a8"
+base0D = "#7b9ebd"
+base0E = "#a68bbf"
+base0F = "#c4956a"

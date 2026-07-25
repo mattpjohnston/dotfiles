@@ -1,5 +1,5 @@
 font=IBM Plex Sans Text 13.5
-include=theme.conf
+include=~/.config/mako/theme.conf
 width=400
 height=120
 outer-margin=8

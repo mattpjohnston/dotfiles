@@ -1,0 +1,20 @@
+# Local Helix port of Matt's Token light palette.
+inherits = "base16_default_light"
+
+[palette]
+base00 = "#faf9f5"
+base01 = "#f6f5f1"
+base02 = "#dddcd6"
+base03 = "#858179"
+base04 = "#6c675f"
+base05 = "#2a2920"
+base06 = "#3d3929"
+base07 = "#2a2920"
+base08 = "#b05555"
+base09 = "#9a5f22"
+base0A = "#6e5c20"
+base0B = "#3f643c"
+base0C = "#2d6c6c"
+base0D = "#527594"
+base0E = "#7c619a"
+base0F = "#876032"

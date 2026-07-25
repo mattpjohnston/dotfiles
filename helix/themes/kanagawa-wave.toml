@@ -1,0 +1,5 @@
+# Kanagawa Wave, using Helix's bundled adaptation.
+inherits = "kanagawa"
+
+# Keep source code upright; prose emphasis remains italic.
+"keyword" = "oniViolet"
