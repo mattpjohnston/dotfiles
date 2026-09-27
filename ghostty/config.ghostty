@@ -1,4 +1,7 @@
-font-size = 14.5
+theme = current
+
+font-family = Iosvmata Liga
+font-size = 13
 background-opacity = 0.95
 background-blur = true
 macos-non-native-fullscreen = visible-menu

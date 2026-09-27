@@ -207,7 +207,7 @@ end, { desc = 'Toggle inlay hints' })
 -- local theme = { light = 'tokyonight-day', dark = 'tokyonight-moon' }
 
 vim.pack.add({ { src = 'https://github.com/rose-pine/neovim', name = 'rose-pine' } })
-local theme = { light = 'rose-pine-dawn', dark = 'rose-pine-moon' }
+local theme = { light = 'rose-pine-dawn', dark = 'rose-pine' }
 
 -- macOS appearance, or the mode file written by theme-switch.
 local function os_mode()
