@@ -1,0 +1,18 @@
+// Same leader keys as Neovim. Zed's vim mode already provides the LSP keys
+// (K, grn, grr, gri, gra, gO, ctrl-]), ]d/[d and ]c/[c.
+[
+  {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      "space f": "file_finder::Toggle",
+      "space /": "pane::DeploySearch",
+      "space b": "tab_switcher::Toggle",
+      "space d": "diagnostics::DeployCurrentFile",
+      "space shift-d": "diagnostics::Deploy",
+      "space shift-f": "editor::Format",
+      "space h": "editor::ToggleInlayHints",
+      "space g p": "editor::ToggleSelectedDiffHunks",
+      "space g b": "editor::ToggleGitBlameInline"
+    }
+  }
+]
