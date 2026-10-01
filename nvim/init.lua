@@ -38,6 +38,7 @@ vim.pack.add({
   'https://github.com/folke/which-key.nvim',
   'https://github.com/nvim-mini/mini.icons',
   'https://github.com/nvim-mini/mini.indentscope',
+  'https://github.com/nvim-mini/mini.pairs',
   'https://github.com/HiPhish/rainbow-delimiters.nvim',
   'https://github.com/nvim-treesitter/nvim-treesitter-context',
 })
@@ -163,6 +164,7 @@ require('mini.indentscope').setup({
   draw = { animation = require('mini.indentscope').gen_animation.none() },
   symbol = '▏',
 })
+require('mini.pairs').setup()
 require('treesitter-context').setup({ max_lines = 3 })
 
 require('gitsigns').setup({
@@ -188,6 +190,14 @@ require('which-key').add({ { '<leader>g', group = 'Git' } })
 -- Mappings
 
 local pick = require('mini.pick').builtin
+-- Enter accepts a highlighted completion. Otherwise mini.pairs splits a
+-- bracket pair, or inserts a normal newline.
+vim.keymap.set('i', '<CR>', function()
+  if vim.fn.complete_info().selected ~= -1 then
+    return '\25'
+  end
+  return MiniPairs.cr()
+end, { expr = true, replace_keycodes = false })
 vim.keymap.set('n', '<leader>f', pick.files, { desc = 'Find file' })
 vim.keymap.set('n', '<leader>/', pick.grep_live, { desc = 'Search project' })
 vim.keymap.set('n', '<leader>b', pick.buffers, { desc = 'Buffers' })
