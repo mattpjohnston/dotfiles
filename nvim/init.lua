@@ -7,7 +7,10 @@ vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.list = true
-vim.opt.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
+-- Every leading space up to the first character is a dot. A tab starts with >
+-- so it is visible among those dots; the rest of its width stays dotted.
+-- Spaces after the code starts stay blank. Trailing spaces stay marked.
+vim.opt.listchars = { tab = '>·', lead = '·', trail = '·', nbsp = '␣' }
 vim.opt.winborder = 'rounded'
 vim.opt.inccommand = 'split'
 vim.opt.foldmethod = 'expr'
@@ -216,8 +219,11 @@ end, { desc = 'Toggle inlay hints' })
 -- vim.pack.add({ 'https://github.com/folke/tokyonight.nvim' })
 -- local theme = { light = 'tokyonight-day', dark = 'tokyonight-moon' }
 
-vim.pack.add({ { src = 'https://github.com/rose-pine/neovim', name = 'rose-pine' } })
-local theme = { light = 'rose-pine-dawn', dark = 'rose-pine' }
+-- vim.pack.add({ { src = 'https://github.com/rose-pine/neovim', name = 'rose-pine' } })
+-- local theme = { light = 'rose-pine-dawn', dark = 'rose-pine' }
+
+vim.pack.add({ 'https://github.com/scottmckendry/cyberdream.nvim' })
+local theme = { light = 'cyberdream-light', dark = 'cyberdream' }
 
 -- macOS appearance, or the mode file written by theme-switch.
 local function os_mode()

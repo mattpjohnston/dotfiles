@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "cyberdream.nvim": {
+      "rev": "b3f4ef5e9b8ee370c913a48b63e130b730ee8782",
+      "src": "https://github.com/scottmckendry/cyberdream.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "070a5d7b985546cc57e1fc61e5bc507fecac6045",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
