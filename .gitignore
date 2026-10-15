@@ -1,4 +1,13 @@
-ghostty/themes/
-helix/themes/
-zed/themes/
+# Local caches and generated files
+.DS_Store
 .ruff_cache/
+
+# Local themes; keep the custom themes used by these configs
+helix/themes/
+ghostty/themes/*
+!ghostty/themes/Alabaster-Dark
+!ghostty/themes/Alabaster-Light
+zed/themes/*
+!zed/themes/cyberdream.json
+!zed/themes/cyberdream-light.json
+!zed/themes/cyberdream-muted.json

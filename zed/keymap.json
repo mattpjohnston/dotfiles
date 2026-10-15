@@ -4,13 +4,18 @@
   {
     "context": "vim_mode == normal && !menu",
     "bindings": {
+      // Find and navigate
       "space f": "file_finder::Toggle",
       "space /": "pane::DeploySearch",
       "space b": "tab_switcher::Toggle",
+
+      // Diagnostics and formatting
       "space d": "diagnostics::DeployCurrentFile",
       "space shift-d": "diagnostics::Deploy",
       "space shift-f": "editor::Format",
       "space h": "editor::ToggleInlayHints",
+
+      // Git
       "space g p": "editor::ToggleSelectedDiffHunks",
       "space g b": "editor::ToggleGitBlameInline"
     }

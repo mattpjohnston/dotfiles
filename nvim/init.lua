@@ -1,22 +1,30 @@
+-- Editor options
+
 vim.g.mapleader = ' '
+
+-- Display
 vim.opt.number = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = 'yes'
+vim.opt.winborder = 'rounded'
+vim.opt.list = true
+-- Leading and trailing spaces are dots; tabs start with >.
+vim.opt.listchars = { tab = '>·', lead = '·', trail = '·', nbsp = '␣' }
+
+-- Editing and search
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.list = true
--- Every leading space up to the first character is a dot. A tab starts with >
--- so it is visible among those dots; the rest of its width stays dotted.
--- Spaces after the code starts stay blank. Trailing spaces stay marked.
-vim.opt.listchars = { tab = '>·', lead = '·', trail = '·', nbsp = '␣' }
-vim.opt.winborder = 'rounded'
 vim.opt.inccommand = 'split'
+
+-- Folding
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.foldtext = ''
 vim.opt.foldlevel = 99
+
+-- Diagnostics and editor events
 
 -- Full messages under the cursor line, end-of-line text elsewhere.
 vim.diagnostic.config({
@@ -29,7 +37,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function() vim.hl.on_yank() end,
 })
 
--- Plugins
+-- Plugin dependencies
 
 vim.pack.add({
   'https://github.com/mason-org/mason.nvim',
@@ -49,7 +57,7 @@ vim.pack.add({
 -- Before vim.lsp.enable(): puts Mason's bin directory on PATH.
 require('mason').setup()
 
--- LSP
+-- Language servers
 
 -- TypeScript 7's own server (Mason's tsc, or the project's if it is 7+).
 -- Oxfmt formats.
@@ -104,6 +112,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+-- Formatting and import organisation
+
 local function formatters(buf)
   return vim.lsp.get_clients({ bufnr = buf, method = 'textDocument/formatting' })
 end
@@ -155,6 +165,8 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   end,
 })
 
+-- Syntax and editor plugins
+
 vim.api.nvim_create_autocmd('FileType', {
   callback = function(args) pcall(vim.treesitter.start, args.buf) end,
 })
@@ -169,6 +181,8 @@ require('mini.indentscope').setup({
 })
 require('mini.pairs').setup()
 require('treesitter-context').setup({ max_lines = 3 })
+
+-- Git
 
 require('gitsigns').setup({
   on_attach = function(bufnr)
@@ -187,10 +201,10 @@ require('gitsigns').setup({
   end,
 })
 
+-- Keybindings
+
 require('which-key').setup()
 require('which-key').add({ { '<leader>g', group = 'Git' } })
-
--- Mappings
 
 local pick = require('mini.pick').builtin
 -- Enter accepts a highlighted completion. Otherwise mini.pairs splits a
@@ -211,46 +225,10 @@ vim.keymap.set('n', '<leader>h', function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
 end, { desc = 'Toggle inlay hints' })
 
--- Theme (keep one pair active)
+-- Theme (light or dark follows the terminal background)
+vim.pack.add({ 'https://github.com/dchinmay2/alabaster.nvim' })
+vim.cmd.colorscheme('alabaster')
 
--- vim.pack.add({ 'https://github.com/EdenEast/nightfox.nvim' })
--- local theme = { light = 'dayfox', dark = 'nightfox' }
-
--- vim.pack.add({ 'https://github.com/folke/tokyonight.nvim' })
--- local theme = { light = 'tokyonight-day', dark = 'tokyonight-moon' }
-
--- vim.pack.add({ { src = 'https://github.com/rose-pine/neovim', name = 'rose-pine' } })
--- local theme = { light = 'rose-pine-dawn', dark = 'rose-pine' }
-
-vim.pack.add({ 'https://github.com/scottmckendry/cyberdream.nvim' })
-local theme = { light = 'cyberdream-light', dark = 'cyberdream' }
-
--- macOS appearance, or the mode file written by theme-switch.
-local function os_mode()
-  if vim.fn.has('mac') == 1 then
-    local result = vim.system({ 'defaults', 'read', '-g', 'AppleInterfaceStyle' }, { text = true }):wait()
-    return vim.trim(result.stdout or '') == 'Dark' and 'dark' or 'light'
-  end
-  local state = vim.env.XDG_STATE_HOME
-  if not state or state == '' then state = vim.fs.joinpath(vim.env.HOME, '.local', 'state') end
-  local file = io.open(vim.fs.joinpath(state, 'theme-mode'))
-  if file then
-    local value = vim.trim(file:read('*a') or '')
-    file:close()
-    if value == 'light' or value == 'dark' then return value end
-  end
-  return vim.o.background
-end
-
-local mode = os_mode()
-vim.cmd.colorscheme(theme[mode])
-
-vim.api.nvim_create_autocmd('FocusGained', {
-  callback = function()
-    local new_mode = os_mode()
-    if new_mode ~= mode then
-      mode = new_mode
-      vim.cmd.colorscheme(theme[mode])
-    end
-  end,
-})
+-- Monokai Pro Spectrum (dark) / Light: follow the terminal background.
+-- vim.pack.add({ 'https://github.com/loctvl842/monokai-pro.nvim' })
+-- vim.cmd.colorscheme(vim.o.background == 'light' and 'monokai-pro-light' or 'monokai-pro-spectrum')

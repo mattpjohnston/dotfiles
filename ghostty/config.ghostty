@@ -1,11 +1,20 @@
-theme = current
+# Appearance
+font-family = "Menlo"
+font-size = 15
+theme = light:Alabaster-Light,dark:Alabaster-Dark
 
-font-family = Iosvmata Liga
-font-size = 13
-background-opacity = 0.95
-background-blur = true
+# Window layout
 macos-non-native-fullscreen = visible-menu
+window-padding-x = 8
+window-padding-y = 4
+window-padding-balance = true
+
+# Keyboard, mouse, and clipboard
 macos-option-as-alt = left
 mouse-hide-while-typing = true
 copy-on-select = clipboard
 right-click-action = paste
+
+# Quick terminal
+keybind = global:ctrl+space=toggle_quick_terminal
+quick-terminal-screen = mouse

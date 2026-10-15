@@ -1,43 +1,73 @@
 {
-  "ui_font_family": "Roboto",
-  "buffer_font_family": "Roboto Mono",
-  "ui_font_size": 17,
-  "buffer_font_size": 16,
-  "buffer_line_height": { "custom": 1.4 },
-  "project_panel": { "default_width": 280 },
-  "agent": {
-    "default_width": 600,
-    "flexible": false
-  },
+  // Appearance
   "theme": {
     "mode": "system",
-    "light": "Zedwaita Light",
-    "dark": "Zedwaita Dark"
+    "light": "Cyberdream light",
+    "dark": "Cyberdream dark"
   },
   "icon_theme": {
     "mode": "system",
     "light": "Colored Zed Icons Theme Light",
     "dark": "Colored Zed Icons Theme Dark"
   },
+  "ui_font_family": "SF Pro Text",
+  "buffer_font_family": "Menlo",
+  "buffer_line_height": "standard",
+  "agent_ui_font_size": 16,
+  "agent_buffer_font_size": 15,
 
+  // Windows and panels
+  "default_open_behavior": "new_window",
+  "cli_default_open_behavior": "new_window",
+  "project_panel": {
+    "default_width": 280
+  },
+  "agent": {
+    "default_width": 600,
+    "flexible": false
+  },
+
+  // Editing and navigation
   "vim_mode": true,
   "vim": {
     "use_smartcase_find": true,
     "toggle_relative_line_numbers": true
   },
   "use_smartcase_search": true,
-
-  "colorize_brackets": true,
-  "sticky_scroll": { "enabled": true },
-  "diagnostics": { "inline": { "enabled": true } },
-  "git": { "inline_blame": { "enabled": false } },
   "autosave": "on_focus_change",
+  "colorize_brackets": true,
+  "sticky_scroll": {
+    "enabled": true
+  },
   "show_edit_predictions": false,
-  "cli_default_open_behavior": "new_window",
-  "default_open_behavior": "new_window",
 
-  "auto_install_extensions": { "tsgo": true, "oxc": true, "astro": true },
+  // Diagnostics and Git
+  "diagnostics": {
+    "inline": { "enabled": true }
+  },
+  "git": {
+    "inline_blame": { "enabled": false }
+  },
+
+  // Extensions
+  "auto_install_extensions": {
+    "alabaster": true,
+    "astro": true,
+    "colored-zed-icons-theme": true,
+    "emmet": true,
+    "git-firefly": true,
+    "html": true,
+    "oxc": true,
+    "rose-pine-theme": true,
+    "tombi": true,
+    "toml": true,
+    "tsgo": true,
+    "zedokai": true
+  },
+
+  // Language tooling
   "languages": {
+    // Web
     "JavaScript": {
       "language_servers": [
         "typescript-ls",
@@ -49,24 +79,8 @@
       ],
       "prettier": { "allowed": false },
       "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" }
-      ],
-      "format_on_save": "on"
-    },
-    "JSX": {
-      "language_servers": [
-        "typescript-ls",
-        "oxlint",
-        "!eslint",
-        "!vtsls",
-        "!typescript-language-server",
-        "..."
-      ],
-      "prettier": { "allowed": false },
-      "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" }
+        { "code_action": "source.fixAll.oxc" },
+        { "language_server": {"name": "oxfmt"} }
       ],
       "format_on_save": "on"
     },
@@ -81,8 +95,8 @@
       ],
       "prettier": { "allowed": false },
       "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" }
+        { "code_action": "source.fixAll.oxc" },
+        { "language_server": {"name": "oxfmt"} }
       ],
       "format_on_save": "on"
     },
@@ -97,88 +111,86 @@
       ],
       "prettier": { "allowed": false },
       "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" }
-      ],
-      "format_on_save": "on"
-    },
-    "Svelte": {
-      "language_servers": ["oxlint", "!eslint", "..."],
-      "prettier": { "allowed": false },
-      "formatter": [
-        { "language_server": { "name": "oxfmt" } },
-        { "code_action": "source.fixAll.oxc" }
+        { "code_action": "source.fixAll.oxc" },
+        { "language_server": {"name": "oxfmt"} }
       ],
       "format_on_save": "on"
     },
     "Astro": {
-      "language_servers": ["astro-language-server", "oxlint", "!eslint", "..."]
-    },
-    "JSON": {
-      "prettier": { "allowed": false },
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
-      "format_on_save": "on"
-    },
-    "JSONC": {
-      "prettier": { "allowed": false },
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
-      "format_on_save": "on"
-    },
-    "CSS": {
-      "prettier": { "allowed": false },
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "language_servers": ["astro-language-server", "oxlint", "!eslint", "..."],
+      "prettier": { "allowed": true },
+      "formatter": "auto",
       "format_on_save": "on"
     },
     "HTML": {
       "prettier": { "allowed": false },
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "formatter": [{"language_server": {"name": "oxfmt"}}],
       "format_on_save": "on"
     },
-    "Markdown": {
+    "CSS": {
       "prettier": { "allowed": false },
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "formatter": [{"language_server": {"name": "oxfmt"}}],
       "format_on_save": "on"
     },
-    "MDX": {
+
+    // Data and documents
+    "JSON": {
       "prettier": { "allowed": false },
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "formatter": [{"language_server": {"name": "oxfmt"}}],
+      "format_on_save": "on"
+    },
+    "JSONC": {
+      "prettier": { "allowed": false },
+      "formatter": [{"language_server": {"name": "oxfmt"}}],
+      "format_on_save": "on"
+    },
+    "TOML": {
+      "language_servers": ["tombi", "oxfmt"],
+      "prettier": { "allowed": false },
+      "formatter": [{"language_server": {"name": "oxfmt"}}],
       "format_on_save": "on"
     },
     "YAML": {
       "prettier": { "allowed": false },
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "formatter": [{"language_server": {"name": "oxfmt"}}],
       "format_on_save": "on"
     },
-    "TOML": {
+    "Markdown": {
       "prettier": { "allowed": false },
-      "formatter": [{ "language_server": { "name": "oxfmt" } }],
+      "formatter": [{"language_server": {"name": "oxfmt"}}],
       "format_on_save": "on"
     },
+
+    // Python
     "Python": {
       "language_servers": ["ty", "ruff"],
       "code_actions_on_format": {
         "source.organizeImports.ruff": true,
         "source.fixAll.ruff": true
       },
-      "formatter": { "language_server": { "name": "ruff" } },
+      "formatter": { "language_server": {"name": "ruff"} },
       "format_on_save": "on",
       "inlay_hints": { "enabled": true }
     },
-    "Rust": { "inlay_hints": { "enabled": true } },
-    "C": { "inlay_hints": { "enabled": true } },
-    "C++": { "inlay_hints": { "enabled": true } }
+
+    // Compiled languages
+    "Rust": { "inlay_hints": {"enabled": true} },
+    "C": { "inlay_hints": {"enabled": true} },
+    "C++": { "inlay_hints": {"enabled": true} }
   },
 
+  // Coding agents
   "agent_servers": {
-    "grok-build": { "type": "registry" },
     "codex-acp": {
       "type": "registry",
-      "default_config_options": { "reasoning_effort": "xhigh" }
+      "default_config_options": { "reasoning_effort": "medium" }
     },
-    "omp": {
+    "grok-build": { "type": "registry" },
+    "opencode": {
       "type": "custom",
-      "command": "/home/matt/.bun/bin/omp",
+      "command": "/opt/homebrew/bin/opencode",
       "args": ["acp"]
-    }
+    },
+    "pi-acp": { "type": "registry" }
   }
 }
