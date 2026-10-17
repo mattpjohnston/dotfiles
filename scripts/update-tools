@@ -1,0 +1,19 @@
+#!/bin/sh
+# CLI/development updates only; OS, desktop and service updates stay in shell wrappers.
+set -eu
+repo=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+step() { printf '\n==> %s\n' "$1"; }
+step 'Homebrew CLI baseline'
+brew update
+HOMEBREW_NO_INSTALL_CLEANUP=1 HOMEBREW_NO_AUTOREMOVE=1 brew bundle upgrade --file="$repo/Brewfile"
+step 'pnpm Node LTS and global applications'
+pnpm runtime set node lts -g
+pnpm update -g --latest '!node' '!pnpm'
+step 'Web editor tools (preserving Astro TypeScript 6 SDK)'
+pnpm --dir "$repo/editor-tools" update --latest '!typescript'
+pnpm --dir "$repo/editor-tools" update typescript
+step 'uv Python runtimes and tools'
+uv python upgrade
+uv tool upgrade --all
+step 'Rust toolchains and components'
+rustup update --no-self-update

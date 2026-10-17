@@ -40,7 +40,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- Plugin dependencies
 
 vim.pack.add({
-  'https://github.com/mason-org/mason.nvim',
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/nvim-mini/mini.completion',
@@ -54,18 +53,33 @@ vim.pack.add({
   'https://github.com/nvim-treesitter/nvim-treesitter-context',
 })
 
--- Before vim.lsp.enable(): puts Mason's bin directory on PATH.
-require('mason').setup()
+-- Central fallbacks. Upstream LSP configs still prefer project-local tools.
+local dotfiles = vim.fs.dirname(vim.fn.resolve(vim.fn.stdpath('config')))
+local editor_tools = dotfiles .. '/editor-tools'
+local brew = vim.env.HOMEBREW_PREFIX
+  or (vim.fn.has('mac') == 1 and '/opt/homebrew' or '/home/linuxbrew/.linuxbrew')
+local pnpm_home = vim.env.PNPM_HOME
+  or (vim.fn.has('mac') == 1 and vim.env.HOME .. '/Library/pnpm' or vim.env.HOME .. '/.local/share/pnpm')
+local tool_paths = {
+  vim.env.HOME .. '/.local/bin', pnpm_home .. '/bin',
+  brew .. '/opt/rustup/bin', editor_tools .. '/node_modules/.bin',
+}
+for dir in vim.gsplit(vim.env.PATH or '', ':', { trimempty = true }) do
+  if not vim.list_contains(tool_paths, dir) then tool_paths[#tool_paths + 1] = dir end
+end
+vim.env.PATH = table.concat(tool_paths, ':')
+
+local function disable_formatting(client)
+  client.server_capabilities.documentFormattingProvider = false
+  client.server_capabilities.documentRangeFormattingProvider = false
+end
 
 -- Language servers
 
--- TypeScript 7's own server (Mason's tsc, or the project's if it is 7+).
+-- TypeScript 7's native server (project-local 7+, then pnpm's global tsc).
 -- Oxfmt formats.
 vim.lsp.config('tsc', {
-  on_init = function(client)
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-  end,
+  on_init = disable_formatting,
 })
 
 -- Upstream only attaches when the project has an Oxc config or dependency.
@@ -81,23 +95,52 @@ vim.lsp.config('oxlint', {
 })
 
 vim.lsp.config('oxfmt', {
-  root_dir = oxc_root({ '.oxfmtrc.json', '.oxfmtrc.jsonc', 'oxfmt.config.ts' }),
+  settings = { oxc_language_server = {} },
+  root_dir = oxc_root({ '.oxfmtrc.json', '.oxfmtrc.jsonc', 'oxfmt.config.ts', 'oxfmt.config.mts', 'vite.config.ts' }),
   filetypes = {
     'javascript', 'javascriptreact', 'typescript', 'typescriptreact',
-    'json', 'jsonc', 'css', 'html', 'markdown', 'yaml', 'toml',
+    'json', 'jsonc', 'json5', 'css', 'scss', 'less', 'html', 'markdown', 'yaml', 'astro',
   },
+  before_init = function(_, config)
+    -- Only supply our Astro-enabled defaults when no project config exists.
+    local configs = require('lspconfig.util').root_markers_with_field(
+      { '.oxfmtrc.json', '.oxfmtrc.jsonc', 'oxfmt.config.ts', 'oxfmt.config.mts' },
+      { 'vite.config.ts' }, { 'vite%-plus', 'fmt:' }, config.root_dir .. '/package.json', 'all'
+    )
+    if not vim.fs.find(configs, { path = config.root_dir, upward = true })[1] then
+      config.settings.oxc_language_server['fmt.configPath'] = editor_tools .. '/oxfmt.json'
+    end
+  end,
 })
 
-vim.lsp.config('html', { init_options = { provideFormatter = false } })
-vim.lsp.config('cssls', { init_options = { provideFormatter = false } })
+vim.lsp.config('html', { on_init = disable_formatting })
+vim.lsp.config('cssls', { on_init = disable_formatting })
+vim.lsp.config('jsonls', { on_init = disable_formatting })
+vim.lsp.config('yamlls', {
+  on_init = disable_formatting,
+  settings = { yaml = { format = { enable = false } } },
+})
+vim.lsp.config('clangd', {
+  cmd = { brew .. '/opt/llvm/bin/clangd', '--background-index', '--clang-tidy' },
+})
+vim.lsp.config('astro', {
+  on_init = disable_formatting,
+  before_init = function(_, config)
+    local tsdk = require('lspconfig.util').get_typescript_server_path(config.root_dir)
+    if tsdk == '' or not vim.uv.fs_stat(tsdk .. '/tsserverlibrary.js') then
+      tsdk = editor_tools .. '/node_modules/typescript/lib'
+    end
+    config.init_options.typescript.tsdk = tsdk
+  end,
+})
 
 vim.lsp.config('rust_analyzer', {
   settings = { ['rust-analyzer'] = { check = { command = 'clippy' } } },
 })
 
 vim.lsp.enable({
-  'ty', 'ruff', 'tsc', 'oxlint', 'oxfmt', 'gopls',
-  'clangd', 'rust_analyzer', 'html', 'cssls', 'svelte', 'astro',
+  'ty', 'ruff', 'tsc', 'oxlint', 'oxfmt',
+  'clangd', 'rust_analyzer', 'html', 'cssls', 'jsonls', 'yamlls', 'tombi', 'astro',
 })
 
 -- Inlay hints on where the server's own editor client enables them.
@@ -106,6 +149,7 @@ local inlay_hint_servers = { rust_analyzer = true, clangd = true, ty = true }
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.name == 'ruff' then client.server_capabilities.hoverProvider = false end
     if client and inlay_hint_servers[client.name] then
       vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
     end
@@ -149,11 +193,12 @@ end
 -- Format on save where each language's tooling expects it. C/C++ only when
 -- the project defines its style, otherwise clangd imposes LLVM style.
 local format_on_save = {
-  go = true, rust = true, python = true, astro = true, svelte = true,
+  rust = true, python = true, astro = true,
   javascript = true, javascriptreact = true, typescript = true, typescriptreact = true,
-  json = true, jsonc = true, css = true, html = true,
+  json = true, jsonc = true, json5 = true, css = true, scss = true, less = true, html = true,
+  yaml = true, toml = true, markdown = true,
 }
-local organize_on_save = { go = true, python = true }
+local organize_on_save = { python = true }
 
 vim.api.nvim_create_autocmd('BufWritePre', {
   callback = function(args)

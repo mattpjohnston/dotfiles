@@ -11,3 +11,6 @@ zed/themes/*
 !zed/themes/cyberdream.json
 !zed/themes/cyberdream-light.json
 !zed/themes/cyberdream-muted.json
+
+# Central editor dependencies; keep their manifest and lockfile tracked.
+editor-tools/node_modules/

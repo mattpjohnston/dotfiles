@@ -1,0 +1,14 @@
+{
+  "name": "matt-editor-tools",
+  "private": true,
+  "description": "Central Neovim web tools; native TypeScript is a pnpm global, TS6 is Astro SDK only.",
+  "dependencies": {
+    "@astrojs/compiler-rs": "latest",
+    "@astrojs/language-server": "latest",
+    "oxfmt": "latest",
+    "oxlint": "latest",
+    "typescript": "~6.0.0",
+    "vscode-langservers-extracted": "latest",
+    "yaml-language-server": "latest"
+  }
+}

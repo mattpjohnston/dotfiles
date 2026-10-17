@@ -1,0 +1,11 @@
+#!/bin/sh
+# Run after Brew Bundle; provision the editor's ecosystem-managed dependencies.
+set -eu
+repo=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+pnpm runtime set node lts -g
+pnpm add -g npm typescript @earendil-works/pi-coding-agent
+pnpm --dir "$repo/editor-tools" install --frozen-lockfile
+uv tool install ruff
+uv tool install ty
+rustup default stable
+rustup component add rust-analyzer rust-src rustfmt clippy

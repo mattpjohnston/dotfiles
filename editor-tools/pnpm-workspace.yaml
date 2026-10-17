@@ -1,0 +1,3 @@
+# core-js postinstall only prints a funding banner; no build is required.
+allowBuilds:
+  core-js: false
