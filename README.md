@@ -96,6 +96,13 @@ Oxfmt configuration must enable Astro itself if it formats .astro files. The
 central compiler companion is installed alongside Oxfmt; no global Prettier
 installation or upstream source patches are required.
 
+Install syntax parsers once on each machine, using Brew's tree-sitter CLI and
+the native C compiler:
+
+```vim
+:TSInstall c cpp rust python typescript tsx javascript astro html css json yaml toml markdown markdown_inline bash lua vim vimdoc query diff gitcommit
+```
+
 Update Neovim plugins/parsers explicitly, reviewing the plugin lockfile diff:
 
 ```vim
