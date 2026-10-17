@@ -131,6 +131,9 @@ Neovim plugin/parser updates are separate operations.
 Shell startup files do not configure Atlas desktop/user-service launches. Keep
 `~/.config/environment.d/60-pnpm.conf` aligned with the directories above, run
 `systemctl --user daemon-reload`, and inspect `systemctl --user show-environment`.
+An already imported PATH can override the generator in a running session. From
+a fresh configured shell, refresh it with
+`systemctl --user import-environment PATH PNPM_HOME` and verify the result again.
 For a live tmux server, refresh its global environment from a fresh shell; do not
 restart attached sessions simply to change PATH. Existing graphical applications
 may need reopening to inherit an updated environment.
