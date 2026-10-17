@@ -11,6 +11,7 @@ for d in ghostty zed nvim; do
   [ -e "$HOME/.config/$d" ] && [ ! -L "$HOME/.config/$d" ] && { echo "move ~/.config/$d aside first"; break; }
   ln -sfn "$HOME/repos/dotfiles/$d" "$HOME/.config/$d"
 done
+ln -s ~/repos/dotfiles/starship.toml ~/.config/starship.toml
 ln -s ~/repos/dotfiles/Brewfile ~/.Brewfile
 ```
 

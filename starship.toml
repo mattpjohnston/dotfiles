@@ -1,0 +1,67 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# One line, with only the modules listed here.
+format = '$hostname$directory$git_branch$git_commit$git_state$git_status$python$cmd_duration$jobs$status$character'
+add_newline = true
+
+[hostname]
+ssh_only = true
+format = '[ssh:$hostname]($style) '
+style = 'bold yellow'
+
+[directory]
+style = 'bold blue'
+
+[git_branch]
+format = '[\($branch\)]($style) '
+style = 'purple'
+only_attached = true
+
+[git_commit]
+format = '[\($hash\)]($style) '
+style = 'purple'
+
+[git_state]
+style = 'bold yellow'
+
+[git_status]
+style = 'yellow'
+modified = '!'
+untracked = '?'
+staged = '+'
+deleted = '-'
+renamed = 'r'
+conflicted = '='
+stashed = 's'
+ahead = '↑'
+behind = '↓'
+diverged = '↑↓'
+
+# Show an activated environment, without querying a Python interpreter.
+[python]
+format = '[py:$virtualenv]($style) '
+style = ''
+detect_extensions = []
+detect_files = []
+
+[cmd_duration]
+format = '[$duration]($style) '
+style = ''
+
+[jobs]
+symbol = '&'
+number_threshold = 1
+style = ''
+
+[status]
+disabled = false
+format = '[exit:$status]($style) '
+style = 'red'
+
+[character]
+success_symbol = '[→](bold green)'
+error_symbol = '[→](bold red)'
+vimcmd_symbol = '[→](bold blue)'
+vimcmd_visual_symbol = '[→](bold blue)'
+vimcmd_replace_symbol = '[→](bold blue)'
+vimcmd_replace_one_symbol = '[→](bold blue)'
